@@ -27,7 +27,7 @@ class EmployeeData:
         if not os.path.exists(self.csv_file):
             with open(self.csv_file, 'w', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file)
-                writer.writerow(['id', 'fname', 'lname', 'department', 'ph_number', 
+                writer.writerow(['id', 'fname', 'lname', 'department', 'ph_number', 'salary',
                                'employee_type', 'team_size', 'office_number'])
             data_logger.info(f"Created new CSV file: {self.csv_file}")
     
@@ -68,11 +68,11 @@ class EmployeeData:
                 if not employees:
                     # Write headers even if no data
                     writer = csv.writer(file)
-                    writer.writerow(['id', 'fname', 'lname', 'department', 'ph_number', 
+                    writer.writerow(['id', 'fname', 'lname', 'department', 'ph_number', 'salary',
                                    'employee_type', 'team_size', 'office_number'])
                     return True
                 
-                fieldnames = ['id', 'fname', 'lname', 'department', 'ph_number', 
+                fieldnames = ['id', 'fname', 'lname', 'department', 'ph_number', 'salary',
                              'employee_type', 'team_size', 'office_number']
                 writer = csv.DictWriter(file, fieldnames=fieldnames)
                 writer.writeheader()
@@ -157,7 +157,7 @@ class EmployeeData:
         try:
             employees = self.load_employees()
             with open(backup_file, 'w', newline='', encoding='utf-8') as file:
-                fieldnames = ['id', 'fname', 'lname', 'department', 'ph_number', 
+                fieldnames = ['id', 'fname', 'lname', 'department', 'ph_number', 'salary',
                              'employee_type', 'team_size', 'office_number']
                 writer = csv.DictWriter(file, fieldnames=fieldnames)
                 writer.writeheader()
@@ -178,8 +178,8 @@ def test_data_operations():
     print("=== Testing Data Operations ===")
     
     # Create test employees
-    emp1 = Employee("TEST001", "Test", "User", "IT", "5551234567")
-    mgr1 = Manager("TEST002", "Test", "Manager", "HR", "5559876543", 3, "B-201")
+    emp1 = Employee("TEST001", "Test", "User", "IT", "5551234567", 50000.0)
+    mgr1 = Manager("TEST002", "Test", "Manager", "HR", "5559876543", 75000.0, 3, "B-201")
     
     # Test data operations
     data_layer = EmployeeData("test_employees.csv")

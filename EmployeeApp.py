@@ -11,6 +11,7 @@ from typing import List, Dict, Any, Optional
 from employee import Employee, Manager
 from EmployeeData import EmployeeData
 from EmployeeView import EmployeeView
+from EmployeeAnalytics import EmployeeAnalytics
 
 # Configure logging
 logging.basicConfig(
@@ -29,6 +30,7 @@ class EmployeeApp:
         """Initialize the application"""
         self.view = EmployeeView()
         self.data_layer = EmployeeData()
+        self.analytics = EmployeeAnalytics()
         self.sql_operations = []  # Store SQL operations for display
         self.logger = logging.getLogger(__name__)
         
@@ -79,10 +81,12 @@ class EmployeeApp:
                 elif choice == '6':
                     self.display_department_summary()
                 elif choice == '7':
-                    self.backup_data()
+                    self.salary_analytics()
                 elif choice == '8':
-                    self.view_sql_operations()
+                    self.backup_data()
                 elif choice == '9':
+                    self.view_sql_operations()
+                elif choice == '10':
                     self.view.display_goodbye_message()
                     break
                 
@@ -119,6 +123,7 @@ class EmployeeApp:
                     lname=emp_data['lname'],
                     department=emp_data['department'],
                     ph_number=emp_data['ph_number'],
+                    salary=emp_data['salary'],
                     team_size=emp_data.get('team_size', 0),
                     office_number=emp_data.get('office_number', '')
                 )
@@ -128,14 +133,18 @@ class EmployeeApp:
                     fname=emp_data['fname'],
                     lname=emp_data['lname'],
                     department=emp_data['department'],
-                    ph_number=emp_data['ph_number']
+                    ph_number=emp_data['ph_number'],
+                    salary=emp_data['salary']
                 )
             
             # Save to data layer
             if self.data_layer.add_employee(employee):
+                # Track salary change for analytics
+                self.analytics.track_salary_change(employee, 0, employee.salary, "CREATE")
+                
                 self.log_sql_operation(
                     "INSERT",
-                    f"INSERT INTO employees (id, name, department, salary, hire_date) VALUES ('{employee.id}', '{employee.fname} {employee.lname}', '{employee.department}', 0, '{datetime.now().strftime('%Y-%m-%d')}')",
+                    f"INSERT INTO employees (id, name, department, salary, hire_date) VALUES ('{employee.id}', '{employee.fname} {employee.lname}', '{employee.department}', {employee.salary}, '{datetime.now().strftime('%Y-%m-%d')}')",
                     f"Created {emp_type}: {employee.id}"
                 )
                 self.view.display_success(f"Employee {employee.id} created successfully!")
@@ -192,11 +201,32 @@ class EmployeeApp:
             print(f"Current Phone: {employee.get_formatted_phone()}")
             new_phone = input("New Phone: ").strip() or employee.ph_number
             
+            print(f"Current Salary: ${employee.salary:,.2f}")
+            new_salary_input = input("New Salary (press Enter to keep current): ").strip()
+            if new_salary_input:
+                try:
+                    new_salary = float(new_salary_input)
+                    if new_salary < 0:
+                        self.view.display_error("Salary cannot be negative.")
+                        self.view.pause()
+                        return
+                except ValueError:
+                    self.view.display_error("Please enter a valid number for salary.")
+                    self.view.pause()
+                    return
+            else:
+                new_salary = employee.salary
+            
+            # Track salary change for analytics
+            old_salary = employee.salary
+            self.analytics.track_salary_change(employee, old_salary, new_salary, "UPDATE")
+            
             # Update employee object
             employee.fname = new_fname
             employee.lname = new_lname
             employee.department = new_dept
             employee.ph_number = new_phone
+            employee.salary = new_salary
             
             # Update manager-specific fields if applicable
             if isinstance(employee, Manager):
@@ -214,7 +244,7 @@ class EmployeeApp:
             if self.data_layer.update_employee(emp_id, employee):
                 self.log_sql_operation(
                     "UPDATE",
-                    f"UPDATE employees SET name = '{employee.fname} {employee.lname}', department = '{employee.department}' WHERE id = '{emp_id}'",
+                    f"UPDATE employees SET name = '{employee.fname} {employee.lname}', department = '{employee.department}', salary = {employee.salary} WHERE id = '{emp_id}'",
                     f"Updated employee: {emp_id}"
                 )
                 self.view.display_success(f"Employee {emp_id} updated successfully!")
@@ -256,6 +286,9 @@ class EmployeeApp:
             
             # Confirm deletion
             if self.view.confirm_action("Are you sure you want to delete this employee?"):
+                # Track salary change for analytics (deletion)
+                self.analytics.track_salary_change(employee, employee.salary, 0, "DELETE")
+                
                 if self.data_layer.delete_employee(emp_id):
                     self.log_sql_operation(
                         "DELETE",
@@ -386,6 +419,126 @@ class EmployeeApp:
         except Exception as e:
             self.view.display_error(f"Error displaying department summary: {e}")
             self.logger.error(f"Error in display_department_summary: {e}")
+        finally:
+            self.view.pause()
+    
+    def salary_analytics(self):
+        """Handle salary analytics menu"""
+        try:
+            while True:
+                self.view.clear_screen()
+                self.view.display_header()
+                self.view.display_salary_analytics_menu()
+                
+                choice = self.view.get_analytics_choice()
+                
+                if choice == '1':
+                    self.show_overall_salary_statistics()
+                elif choice == '2':
+                    self.show_department_salary_breakdown()
+                elif choice == '3':
+                    self.show_employee_type_comparison()
+                elif choice == '4':
+                    self.show_top_earners()
+                elif choice == '5':
+                    self.show_lowest_earners()
+                elif choice == '6':
+                    self.show_salary_gap_analysis()
+                elif choice == '7':
+                    self.generate_salary_report()
+                elif choice == '8':
+                    self.show_recent_salary_changes()
+                elif choice == '9':
+                    break
+                
+        except Exception as e:
+            self.view.display_error(f"Error in salary analytics: {e}")
+            self.logger.error(f"Error in salary_analytics: {e}")
+    
+    def show_overall_salary_statistics(self):
+        """Show overall salary statistics"""
+        try:
+            employees = self.data_layer.load_employees()
+            stats = self.analytics.calculate_salary_statistics(employees)
+            self.view.display_salary_statistics(stats)
+        except Exception as e:
+            self.view.display_error(f"Error calculating salary statistics: {e}")
+        finally:
+            self.view.pause()
+    
+    def show_department_salary_breakdown(self):
+        """Show department salary breakdown"""
+        try:
+            employees = self.data_layer.load_employees()
+            dept_stats = self.analytics.calculate_salary_by_department(employees)
+            self.view.display_department_salary_breakdown(dept_stats)
+        except Exception as e:
+            self.view.display_error(f"Error calculating department breakdown: {e}")
+        finally:
+            self.view.pause()
+    
+    def show_employee_type_comparison(self):
+        """Show employee type salary comparison"""
+        try:
+            employees = self.data_layer.load_employees()
+            type_stats = self.analytics.calculate_salary_by_employee_type(employees)
+            self.view.display_employee_type_comparison(type_stats)
+        except Exception as e:
+            self.view.display_error(f"Error calculating employee type comparison: {e}")
+        finally:
+            self.view.pause()
+    
+    def show_top_earners(self):
+        """Show top earners"""
+        try:
+            employees = self.data_layer.load_employees()
+            top_earners = self.analytics.find_highest_paid_employees(employees, 5)
+            self.view.display_top_earners(top_earners, "TOP 5 HIGHEST PAID EMPLOYEES")
+        except Exception as e:
+            self.view.display_error(f"Error finding top earners: {e}")
+        finally:
+            self.view.pause()
+    
+    def show_lowest_earners(self):
+        """Show lowest earners"""
+        try:
+            employees = self.data_layer.load_employees()
+            lowest_earners = self.analytics.find_lowest_paid_employees(employees, 5)
+            self.view.display_top_earners(lowest_earners, "TOP 5 LOWEST PAID EMPLOYEES")
+        except Exception as e:
+            self.view.display_error(f"Error finding lowest earners: {e}")
+        finally:
+            self.view.pause()
+    
+    def show_salary_gap_analysis(self):
+        """Show salary gap analysis"""
+        try:
+            employees = self.data_layer.load_employees()
+            gap_analysis = self.analytics.calculate_salary_gap_analysis(employees)
+            self.view.display_salary_gap_analysis(gap_analysis)
+        except Exception as e:
+            self.view.display_error(f"Error calculating salary gap analysis: {e}")
+        finally:
+            self.view.pause()
+    
+    def generate_salary_report(self):
+        """Generate complete salary report"""
+        try:
+            employees = self.data_layer.load_employees()
+            report = self.analytics.generate_salary_report(employees)
+            self.view.display_salary_report(report)
+        except Exception as e:
+            self.view.display_error(f"Error generating salary report: {e}")
+        finally:
+            self.view.pause()
+    
+    def show_recent_salary_changes(self):
+        """Show recent salary changes"""
+        try:
+            recent_changes = self.analytics.get_recent_salary_changes(10)
+            self.view.display_recent_salary_changes(recent_changes)
+        except Exception as e:
+            self.view.display_error(f"Error retrieving recent salary changes: {e}")
         finally:
             self.view.pause()
     

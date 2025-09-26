@@ -22,13 +22,14 @@ logging.basicConfig(
 class Employee:
     """Base Employee class with validation and properties"""
     
-    def __init__(self, emp_id: str, fname: str, lname: str, department: str, ph_number: str):
+    def __init__(self, emp_id: str, fname: str, lname: str, department: str, ph_number: str, salary: float = 0.0):
         """Initialize employee with validation"""
         self._id = emp_id
         self.fname = fname
         self.lname = lname
         self.department = department
         self.ph_number = ph_number
+        self.salary = salary
     
     @property
     def id(self) -> str:
@@ -96,6 +97,20 @@ class Employee:
         
         self._ph_number = sanitized
     
+    @property
+    def salary(self) -> float:
+        """Salary property with validation"""
+        return self._salary
+    
+    @salary.setter
+    def salary(self, value: float):
+        """Set salary with validation"""
+        if not isinstance(value, (int, float)):
+            raise ValueError("Salary must be a number")
+        if value < 0:
+            raise ValueError("Salary cannot be negative")
+        self._salary = float(value)
+    
     def getphNumber(self) -> str:
         """Return unformatted 10-digit phone number"""
         return self._ph_number
@@ -107,7 +122,8 @@ class Employee:
     def __str__(self) -> str:
         """String representation of employee"""
         return (f"Employee ID: {self._id}, Name: {self._fname} {self._lname}, "
-                f"Department: {self._department}, Phone: {self.get_formatted_phone()}")
+                f"Department: {self._department}, Phone: {self.get_formatted_phone()}, "
+                f"Salary: ${self._salary:,.2f}")
     
     def to_dict(self) -> dict:
         """Convert employee to dictionary for CSV storage"""
@@ -117,6 +133,7 @@ class Employee:
             'lname': self._lname,
             'department': self._department,
             'ph_number': self._ph_number,
+            'salary': self._salary,
             'employee_type': 'Employee'
         }
     
@@ -128,7 +145,8 @@ class Employee:
             fname=data['fname'],
             lname=data['lname'],
             department=data['department'],
-            ph_number=data['ph_number']
+            ph_number=data['ph_number'],
+            salary=float(data.get('salary', 0))
         )
 
 
@@ -136,9 +154,9 @@ class Manager(Employee):
     """Manager subclass with additional attributes"""
     
     def __init__(self, emp_id: str, fname: str, lname: str, department: str, 
-                 ph_number: str, team_size: int = 0, office_number: str = ""):
+                 ph_number: str, salary: float = 0.0, team_size: int = 0, office_number: str = ""):
         """Initialize manager with additional attributes"""
-        super().__init__(emp_id, fname, lname, department, ph_number)
+        super().__init__(emp_id, fname, lname, department, ph_number, salary)
         self.team_size = team_size
         self.office_number = office_number
     
@@ -189,6 +207,7 @@ class Manager(Employee):
             lname=data['lname'],
             department=data['department'],
             ph_number=data['ph_number'],
+            salary=float(data.get('salary', 0)),
             team_size=data.get('team_size', 0),
             office_number=data.get('office_number', '')
         )
@@ -200,7 +219,7 @@ def test_employee_creation():
     
     # Test valid employee creation
     try:
-        emp1 = Employee("EMP001", "John", "Doe", "HR", "(555)-123-4567")
+        emp1 = Employee("EMP001", "John", "Doe", "HR", "(555)-123-4567", 50000.0)
         print(f"✓ Created valid employee: {emp1}")
         logging.info(f"Successfully created employee: {emp1}")
     except ValueError as e:
@@ -209,7 +228,7 @@ def test_employee_creation():
     
     # Test valid manager creation
     try:
-        mgr1 = Manager("MGR001", "Jane", "Smith", "IT", "5559876543", 5, "A-101")
+        mgr1 = Manager("MGR001", "Jane", "Smith", "IT", "5559876543", 75000.0, 5, "A-101")
         print(f"✓ Created valid manager: {mgr1}")
         logging.info(f"Successfully created manager: {mgr1}")
     except ValueError as e:
@@ -218,7 +237,7 @@ def test_employee_creation():
     
     # Test invalid employee creation (name with digits)
     try:
-        emp2 = Employee("EMP002", "John2", "Doe", "HR", "5551234567")
+        emp2 = Employee("EMP002", "John2", "Doe", "HR", "5551234567", 45000.0)
         print(f"✗ Should have failed: {emp2}")
     except ValueError as e:
         print(f"✓ Correctly caught validation error: {e}")
@@ -226,7 +245,7 @@ def test_employee_creation():
     
     # Test invalid department
     try:
-        emp3 = Employee("EMP003", "Alice", "Johnson", "HUMANRESOURCES", "5551234567")
+        emp3 = Employee("EMP003", "Alice", "Johnson", "HUMANRESOURCES", "5551234567", 50000.0)
         print(f"✗ Should have failed: {emp3}")
     except ValueError as e:
         print(f"✓ Correctly caught validation error: {e}")
@@ -234,17 +253,25 @@ def test_employee_creation():
     
     # Test invalid phone number
     try:
-        emp4 = Employee("EMP004", "Bob", "Wilson", "IT", "123")
+        emp4 = Employee("EMP004", "Bob", "Wilson", "IT", "123", 55000.0)
         print(f"✗ Should have failed: {emp4}")
+    except ValueError as e:
+        print(f"✓ Correctly caught validation error: {e}")
+        logging.error(f"Validation error caught: {e}")
+    
+    # Test invalid salary
+    try:
+        emp5 = Employee("EMP005", "Carol", "Brown", "FIN", "5551234567", -1000.0)
+        print(f"✗ Should have failed: {emp5}")
     except ValueError as e:
         print(f"✓ Correctly caught validation error: {e}")
         logging.error(f"Validation error caught: {e}")
     
     # Test phone number sanitization
     try:
-        emp5 = Employee("EMP005", "Carol", "Brown", "FIN", "555.123.4567")
-        print(f"✓ Phone sanitization works: {emp5.get_formatted_phone()}")
-        logging.info(f"Phone sanitization successful: {emp5.get_formatted_phone()}")
+        emp6 = Employee("EMP006", "David", "Lee", "IT", "555.123.4567", 60000.0)
+        print(f"✓ Phone sanitization works: {emp6.get_formatted_phone()}")
+        logging.info(f"Phone sanitization successful: {emp6.get_formatted_phone()}")
     except ValueError as e:
         print(f"✗ Phone sanitization failed: {e}")
         logging.error(f"Phone sanitization failed: {e}")

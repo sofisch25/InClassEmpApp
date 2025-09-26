@@ -36,26 +36,27 @@ class EmployeeView:
         print("4. Display All Employees")
         print("5. Search Employees")
         print("6. Display Department Summary")
-        print("7. Backup Data")
-        print("8. View SQL Operations Log")
-        print("9. Quit")
+        print("7. Salary Analytics")
+        print("8. Backup Data")
+        print("9. View SQL Operations Log")
+        print("10. Quit")
         print("-" * 40)
     
     def get_menu_choice(self) -> str:
         """Get user's menu choice"""
         while True:
             try:
-                choice = input("Enter your choice (1-9): ").strip()
-                if choice in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                choice = input("Enter your choice (1-10): ").strip()
+                if choice in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']:
                     return choice
                 else:
-                    self.display_error("Invalid choice. Please enter 1-9.")
+                    self.display_error("Invalid choice. Please enter 1-10.")
             except KeyboardInterrupt:
                 print("\nExiting...")
-                return '9'
+                return '10'
             except EOFError:
                 print("\nExiting...")
-                return '9'
+                return '10'
     
     def get_employee_id(self, action: str) -> str:
         """Get employee ID from user"""
@@ -145,6 +146,26 @@ class EmployeeView:
             except EOFError:
                 return {}
         
+        # Get salary
+        while True:
+            try:
+                salary_input = input("Enter Annual Salary: ").strip()
+                if salary_input:
+                    salary = float(salary_input)
+                    if salary >= 0:
+                        data['salary'] = salary
+                        break
+                    else:
+                        self.display_error("Salary cannot be negative.")
+                else:
+                    self.display_error("Salary cannot be empty.")
+            except ValueError:
+                self.display_error("Please enter a valid number for salary.")
+            except KeyboardInterrupt:
+                return {}
+            except EOFError:
+                return {}
+        
         # Get manager-specific data
         if employee_type == "Manager":
             while True:
@@ -197,20 +218,21 @@ class EmployeeView:
             return
         
         print(f"\n{title}:")
-        print("-" * 80)
-        print(f"{'ID':<10} {'Name':<25} {'Department':<12} {'Phone':<15} {'Type':<10}")
-        print("-" * 80)
+        print("-" * 100)
+        print(f"{'ID':<10} {'Name':<25} {'Department':<12} {'Phone':<15} {'Salary':<12} {'Type':<10}")
+        print("-" * 100)
         
         for emp in employees:
             phone = emp.get_formatted_phone()
             emp_type = "Manager" if isinstance(emp, Manager) else "Employee"
-            print(f"{emp.id:<10} {emp.fname + ' ' + emp.lname:<25} {emp.department:<12} {phone:<15} {emp_type:<10}")
+            salary_str = f"${emp.salary:,.0f}"
+            print(f"{emp.id:<10} {emp.fname + ' ' + emp.lname:<25} {emp.department:<12} {phone:<15} {salary_str:<12} {emp_type:<10}")
             
             # Show additional manager info
             if isinstance(emp, Manager):
                 print(f"{'':>10} Team Size: {emp.team_size}, Office: {emp.office_number}")
         
-        print("-" * 80)
+        print("-" * 100)
         print(f"Total: {len(employees)} employees")
     
     def display_employee_details(self, employee: Employee):
@@ -225,6 +247,7 @@ class EmployeeView:
         print(f"Name: {employee.fname} {employee.lname}")
         print(f"Department: {employee.department}")
         print(f"Phone: {employee.get_formatted_phone()}")
+        print(f"Salary: ${employee.salary:,.2f}")
         print(f"Type: {'Manager' if isinstance(employee, Manager) else 'Employee'}")
         
         if isinstance(employee, Manager):
@@ -261,6 +284,111 @@ class EmployeeView:
             print(f"   SQL: {op['sql']}")
             if op.get('result'):
                 print(f"   Result: {op['result']}")
+            print()
+    
+    def display_salary_analytics_menu(self):
+        """Display salary analytics menu"""
+        print("\nSALARY ANALYTICS MENU:")
+        print("1. Overall Salary Statistics")
+        print("2. Department Salary Breakdown")
+        print("3. Employee Type Salary Comparison")
+        print("4. Top 5 Highest Paid Employees")
+        print("5. Top 5 Lowest Paid Employees")
+        print("6. Salary Gap Analysis")
+        print("7. Generate Complete Salary Report")
+        print("8. View Recent Salary Changes")
+        print("9. Back to Main Menu")
+        print("-" * 40)
+    
+    def get_analytics_choice(self) -> str:
+        """Get analytics menu choice"""
+        while True:
+            try:
+                choice = input("Enter your choice (1-9): ").strip()
+                if choice in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                    return choice
+                else:
+                    self.display_error("Invalid choice. Please enter 1-9.")
+            except KeyboardInterrupt:
+                return '9'
+            except EOFError:
+                return '9'
+    
+    def display_salary_statistics(self, stats: Dict[str, Any]):
+        """Display salary statistics"""
+        print(f"\nSALARY STATISTICS:")
+        print("-" * 30)
+        print(f"Total Employees: {stats['count']}")
+        print(f"Average Salary: ${stats['average']:,.2f}")
+        print(f"Minimum Salary: ${stats['min']:,.2f}")
+        print(f"Maximum Salary: ${stats['max']:,.2f}")
+        print(f"Median Salary: ${stats['median']:,.2f}")
+        print(f"Total Payroll: ${stats['total']:,.2f}")
+    
+    def display_department_salary_breakdown(self, dept_stats: Dict[str, Dict[str, Any]]):
+        """Display department salary breakdown"""
+        print(f"\nDEPARTMENT SALARY BREAKDOWN:")
+        print("-" * 50)
+        for dept, stats in dept_stats.items():
+            print(f"{dept}:")
+            print(f"  Count: {stats['count']}")
+            print(f"  Average: ${stats['average']:,.2f}")
+            print(f"  Range: ${stats['min']:,.2f} - ${stats['max']:,.2f}")
+            print(f"  Total: ${stats['total']:,.2f}")
+            print()
+    
+    def display_employee_type_comparison(self, type_stats: Dict[str, Dict[str, Any]]):
+        """Display employee type salary comparison"""
+        print(f"\nEMPLOYEE TYPE SALARY COMPARISON:")
+        print("-" * 50)
+        for emp_type, stats in type_stats.items():
+            print(f"{emp_type}:")
+            print(f"  Count: {stats['count']}")
+            print(f"  Average: ${stats['average']:,.2f}")
+            print(f"  Range: ${stats['min']:,.2f} - ${stats['max']:,.2f}")
+            print(f"  Total: ${stats['total']:,.2f}")
+            print()
+    
+    def display_top_earners(self, employees: List[Employee], title: str):
+        """Display top earners"""
+        print(f"\n{title}:")
+        print("-" * 60)
+        for i, emp in enumerate(employees, 1):
+            emp_type = "Manager" if isinstance(emp, Manager) else "Employee"
+            print(f"{i}. {emp.fname} {emp.lname} ({emp.department}) - ${emp.salary:,.2f} ({emp_type})")
+    
+    def display_salary_gap_analysis(self, gap_analysis: Dict[str, Any]):
+        """Display salary gap analysis"""
+        if 'error' in gap_analysis:
+            print(f"\nError: {gap_analysis['error']}")
+            return
+        
+        print(f"\nSALARY GAP ANALYSIS:")
+        print("-" * 30)
+        print(f"Regular Employee Average: ${gap_analysis['regular_employee_average']:,.2f}")
+        print(f"Manager Average: ${gap_analysis['manager_average']:,.2f}")
+        print(f"Absolute Gap: ${gap_analysis['absolute_gap']:,.2f}")
+        print(f"Percentage Gap: {gap_analysis['percentage_gap']:.1f}%")
+        print(f"Regular Employees: {gap_analysis['regular_count']}")
+        print(f"Managers: {gap_analysis['manager_count']}")
+    
+    def display_salary_report(self, report: str):
+        """Display complete salary report"""
+        print(f"\n{report}")
+    
+    def display_recent_salary_changes(self, changes: List[Dict[str, Any]]):
+        """Display recent salary changes"""
+        if not changes:
+            self.display_message("No recent salary changes.")
+            return
+        
+        print(f"\nRECENT SALARY CHANGES:")
+        print("-" * 60)
+        for change in changes:
+            print(f"{change['employee_name']} ({change['department']}):")
+            print(f"  ${change['old_salary']:,.2f} → ${change['new_salary']:,.2f}")
+            print(f"  Change: ${change['change_amount']:,.2f} ({change['change_percentage']:.1f}%)")
+            print(f"  Operation: {change['operation']} - {change['timestamp']}")
             print()
     
     def display_message(self, message: str):

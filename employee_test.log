@@ -78,3 +78,82 @@
 2025-09-26 14:39:45,729 - INFO - Successfully saved 6 employees
 2025-09-26 14:39:45,730 - INFO - SQL Operation: INSERT - INSERT INTO employees (id, name, department, salary, hire_date) VALUES ('2', 'Sophia Fischer', 'IT', 0, '2025-09-26')
 2025-09-26 14:40:19,394 - INFO - SQLite connection established for SQL logging
+2025-09-26 14:46:41,161 - INFO - Loaded employee: EMP001
+2025-09-26 14:46:41,171 - INFO - Loaded employee: EMP002
+2025-09-26 14:46:41,174 - INFO - Loaded employee: EMP004
+2025-09-26 14:46:41,178 - INFO - Loaded employee: EMP006
+2025-09-26 14:46:41,183 - INFO - Loaded employee: EMP007
+2025-09-26 14:46:41,186 - INFO - Loaded employee: 2
+2025-09-26 14:46:41,195 - INFO - Successfully loaded 6 employees
+2025-09-26 14:46:41,195 - INFO - Saved employee: EMP001
+2025-09-26 14:46:41,195 - INFO - Saved employee: EMP002
+2025-09-26 14:46:41,195 - INFO - Saved employee: EMP004
+2025-09-26 14:46:41,195 - INFO - Saved employee: EMP006
+2025-09-26 14:46:41,195 - INFO - Saved employee: EMP007
+2025-09-26 14:46:41,195 - INFO - Saved employee: 2
+2025-09-26 14:46:41,202 - INFO - Saved employee: 3
+2025-09-26 14:46:41,202 - INFO - Successfully saved 7 employees
+2025-09-26 14:46:41,204 - INFO - SQL Operation: INSERT - INSERT INTO employees (id, name, department, salary, hire_date) VALUES ('3', 'Andrew Towers', 'FIN', 0, '2025-09-26')
+2025-09-26 14:49:55,207 - INFO - Created employee: 3
+2025-09-26 15:00:26,521 - INFO - Loaded employee: EMP001
+2025-09-26 15:00:26,523 - INFO - Loaded employee: EMP002
+2025-09-26 15:00:26,523 - INFO - Loaded employee: EMP004
+2025-09-26 15:00:26,523 - INFO - Loaded employee: EMP006
+2025-09-26 15:00:26,523 - INFO - Loaded employee: EMP007
+2025-09-26 15:00:26,523 - INFO - Loaded employee: 2
+2025-09-26 15:00:26,524 - ERROR - Error loading employee from row {'id': '3', 'fname': 'Andrew', 'lname': 'Towers', 'department': 'FIN', 'ph_number': '1234567890', 'employee_type': 'Manager', 'team_size': '0', 'office_number': '1'}: Team size must be a non-negative integer
+2025-09-26 15:00:26,524 - INFO - Successfully loaded 6 employees
+2025-09-26 15:00:26,526 - INFO - SQL Operation: SELECT - SELECT department, COUNT(*) as count, SUM(CASE WHEN employee_type = 'Manager' THEN 1 ELSE 0 END) as managers FROM employees GROUP BY department
+2025-09-26 15:00:37,406 - INFO - Loaded employee: EMP001
+2025-09-26 15:00:37,406 - INFO - Loaded employee: EMP002
+2025-09-26 15:00:37,407 - INFO - Loaded employee: EMP004
+2025-09-26 15:00:37,407 - INFO - Loaded employee: EMP006
+2025-09-26 15:00:37,407 - INFO - Loaded employee: EMP007
+2025-09-26 15:00:37,407 - INFO - Loaded employee: 2
+2025-09-26 15:00:37,407 - ERROR - Error loading employee from row {'id': '3', 'fname': 'Andrew', 'lname': 'Towers', 'department': 'FIN', 'ph_number': '1234567890', 'employee_type': 'Manager', 'team_size': '0', 'office_number': '1'}: Team size must be a non-negative integer
+2025-09-26 15:00:37,407 - INFO - Successfully loaded 6 employees
+2025-09-26 15:00:37,410 - INFO - SQL Operation: SELECT - SELECT department, COUNT(*) as count, SUM(CASE WHEN employee_type = 'Manager' THEN 1 ELSE 0 END) as managers FROM employees GROUP BY department
+2025-09-26 15:01:00,924 - INFO - Loaded employee: EMP001
+2025-09-26 15:01:00,924 - INFO - Loaded employee: EMP002
+2025-09-26 15:01:00,924 - INFO - Loaded employee: EMP004
+2025-09-26 15:01:00,924 - INFO - Loaded employee: EMP006
+2025-09-26 15:01:00,924 - INFO - Loaded employee: EMP007
+2025-09-26 15:01:00,924 - INFO - Loaded employee: 2
+2025-09-26 15:01:00,924 - ERROR - Error loading employee from row {'id': '3', 'fname': 'Andrew', 'lname': 'Towers', 'department': 'FIN', 'ph_number': '1234567890', 'employee_type': 'Manager', 'team_size': '0', 'office_number': '1'}: Team size must be a non-negative integer
+2025-09-26 15:01:00,924 - INFO - Successfully loaded 6 employees
+2025-09-26 15:01:00,940 - INFO - SQL Operation: SELECT - SELECT department, COUNT(*) as count, SUM(CASE WHEN employee_type = 'Manager' THEN 1 ELSE 0 END) as managers FROM employees GROUP BY department
+2025-09-26 15:01:30,523 - INFO - Loaded employee: EMP001
+2025-09-26 15:01:30,529 - INFO - Loaded employee: EMP002
+2025-09-26 15:01:30,538 - INFO - Loaded employee: EMP004
+2025-09-26 15:01:30,544 - INFO - Loaded employee: EMP006
+2025-09-26 15:01:30,551 - INFO - Loaded employee: EMP007
+2025-09-26 15:01:30,558 - INFO - Loaded employee: 2
+2025-09-26 15:01:30,563 - ERROR - Error loading employee from row {'id': '3', 'fname': 'Andrew', 'lname': 'Towers', 'department': 'FIN', 'ph_number': '1234567890', 'employee_type': 'Manager', 'team_size': '0', 'office_number': '1'}: Team size must be a non-negative integer
+2025-09-26 15:01:30,564 - INFO - Successfully loaded 6 employees
+2025-09-26 15:01:55,169 - INFO - Loaded employee: EMP001
+2025-09-26 15:01:55,176 - INFO - Loaded employee: EMP002
+2025-09-26 15:01:55,177 - INFO - Loaded employee: EMP004
+2025-09-26 15:01:55,177 - INFO - Loaded employee: EMP006
+2025-09-26 15:01:55,177 - INFO - Loaded employee: EMP007
+2025-09-26 15:01:55,177 - INFO - Loaded employee: 2
+2025-09-26 15:01:55,177 - ERROR - Error loading employee from row {'id': '3', 'fname': 'Andrew', 'lname': 'Towers', 'department': 'FIN', 'ph_number': '1234567890', 'employee_type': 'Manager', 'team_size': '0', 'office_number': '1'}: Team size must be a non-negative integer
+2025-09-26 15:01:55,178 - INFO - Successfully loaded 6 employees
+2025-09-26 15:01:55,195 - INFO - SQL Operation: SELECT - SELECT * FROM employees WHERE department LIKE '%HR%'
+2025-09-26 15:09:43,960 - INFO - Successfully created employee: Employee ID: EMP001, Name: John Doe, Department: HR, Phone: (555)-123-4567, Salary: $50,000.00
+2025-09-26 15:09:43,960 - INFO - Successfully created manager: Manager - Employee ID: MGR001, Name: Jane Smith, Department: IT, Phone: (555)-987-6543, Salary: $75,000.00, Team Size: 5, Office: A-101
+2025-09-26 15:09:43,960 - ERROR - Validation error caught: First name cannot contain digits
+2025-09-26 15:09:43,960 - ERROR - Validation error caught: Department must be 2-3 uppercase letters
+2025-09-26 15:09:43,960 - ERROR - Validation error caught: Phone number must be exactly 10 digits
+2025-09-26 15:09:43,960 - ERROR - Validation error caught: Salary cannot be negative
+2025-09-26 15:09:43,960 - INFO - Phone sanitization successful: (555)-123-4567
+2025-09-26 15:09:59,952 - INFO - Calculated average salary: $68,000.00 for 5 employees
+2025-09-26 15:09:59,952 - INFO - Calculated average salary for IT: $75,000.00 for 2 employees
+2025-09-26 15:09:59,952 - INFO - Calculated salary statistics: {'count': 5, 'average': 68000.0, 'min': 55000.0, 'max': 85000.0, 'total': 340000.0, 'median': 65000.0}
+2025-09-26 15:09:59,952 - INFO - Calculated salary gap analysis: {'regular_employee_average': 60000.0, 'manager_average': 80000.0, 'absolute_gap': 20000.0, 'percentage_gap': 33.33333333333333, 'regular_count': 3, 'manager_count': 2}
+2025-09-26 15:09:59,952 - INFO - Calculated salary statistics: {'count': 5, 'average': 68000.0, 'min': 55000.0, 'max': 85000.0, 'total': 340000.0, 'median': 65000.0}
+2025-09-26 15:09:59,952 - INFO - Calculated salary statistics: {'count': 2, 'average': 65000.0, 'min': 55000.0, 'max': 75000.0, 'total': 130000.0, 'median': 75000.0}
+2025-09-26 15:09:59,952 - INFO - Calculated salary statistics: {'count': 2, 'average': 75000.0, 'min': 65000.0, 'max': 85000.0, 'total': 150000.0, 'median': 85000.0}
+2025-09-26 15:09:59,952 - INFO - Calculated salary statistics: {'count': 1, 'average': 60000.0, 'min': 60000.0, 'max': 60000.0, 'total': 60000.0, 'median': 60000.0}
+2025-09-26 15:09:59,952 - INFO - Calculated salary statistics: {'count': 3, 'average': 60000.0, 'min': 55000.0, 'max': 65000.0, 'total': 180000.0, 'median': 60000.0}
+2025-09-26 15:09:59,957 - INFO - Calculated salary statistics: {'count': 2, 'average': 80000.0, 'min': 75000.0, 'max': 85000.0, 'total': 160000.0, 'median': 85000.0}
+2025-09-26 15:09:59,957 - INFO - Calculated salary gap analysis: {'regular_employee_average': 60000.0, 'manager_average': 80000.0, 'absolute_gap': 20000.0, 'percentage_gap': 33.33333333333333, 'regular_count': 3, 'manager_count': 2}
