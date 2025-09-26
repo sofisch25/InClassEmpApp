@@ -1,0 +1,6 @@
+id,fname,lname,department,ph_number,employee_type,team_size,office_number
+EMP001,Alice,Smith,HR,5551234567,Employee,,
+EMP002,Bob,Johnson,IT,5552345678,Employee,,
+MGR001,Carol,Lee,IT,5553456789,Manager,5,A-101
+EMP003,David,Kim,FIN,5554567890,Employee,,
+MGR002,Eva,Brown,HR,5555678901,Manager,3,B-202

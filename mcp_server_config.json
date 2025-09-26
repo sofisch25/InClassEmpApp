@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "sqlite-employees": {
+      "command": "python",
+      "args": ["mcp_sqlite_server.py"],
+      "env": {
+        "DATABASE_PATH": "employees.db"
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+2025-09-26 14:38:23,158 - ERROR - Failed to create employee: Department must be exactly 3 uppercase letters
+2025-09-26 14:38:23,158 - ERROR - Failed to create manager: Department must be exactly 3 uppercase letters
+2025-09-26 14:38:23,158 - ERROR - Validation error caught: First name cannot contain digits
+2025-09-26 14:38:23,158 - ERROR - Validation error caught: Department must be exactly 3 uppercase letters
+2025-09-26 14:38:23,158 - ERROR - Validation error caught: Department must be exactly 3 uppercase letters
+2025-09-26 14:38:23,158 - INFO - Phone sanitization successful: (555)-123-4567
+2025-09-26 14:38:51,548 - INFO - Successfully created employee: Employee ID: EMP001, Name: John Doe, Department: HR, Phone: (555)-123-4567
+2025-09-26 14:38:51,549 - INFO - Successfully created manager: Manager - Employee ID: MGR001, Name: Jane Smith, Department: IT, Phone: (555)-987-6543, Team Size: 5, Office: A-101
+2025-09-26 14:38:51,549 - ERROR - Validation error caught: First name cannot contain digits
+2025-09-26 14:38:51,549 - ERROR - Validation error caught: Department must be 2-3 uppercase letters
+2025-09-26 14:38:51,549 - ERROR - Validation error caught: Phone number must be exactly 10 digits
+2025-09-26 14:38:51,549 - INFO - Phone sanitization successful: (555)-123-4567
+2025-09-26 14:39:04,606 - INFO - Created new CSV file: test_employees.csv
+2025-09-26 14:39:04,644 - INFO - Successfully loaded 0 employees
+2025-09-26 14:39:04,660 - INFO - Saved employee: TEST001
+2025-09-26 14:39:04,661 - INFO - Successfully saved 1 employees
+2025-09-26 14:39:04,673 - INFO - Loaded employee: TEST001
+2025-09-26 14:39:04,673 - INFO - Successfully loaded 1 employees
+2025-09-26 14:39:04,674 - INFO - Saved employee: TEST001
+2025-09-26 14:39:04,674 - INFO - Saved employee: TEST002
+2025-09-26 14:39:04,675 - INFO - Successfully saved 2 employees
+2025-09-26 14:39:04,682 - INFO - Loaded employee: TEST001
+2025-09-26 14:39:04,684 - ERROR - Error loading employee from row {'id': 'TEST002', 'fname': 'Test', 'lname': 'Manager', 'department': 'HR', 'ph_number': '5559876543', 'employee_type': 'Manager', 'team_size': '3', 'office_number': 'B-201'}: Team size must be a non-negative integer
+2025-09-26 14:39:04,686 - INFO - Successfully loaded 1 employees
+2025-09-26 14:39:04,686 - INFO - Loaded employee: TEST001
+2025-09-26 14:39:04,688 - ERROR - Error loading employee from row {'id': 'TEST002', 'fname': 'Test', 'lname': 'Manager', 'department': 'HR', 'ph_number': '5559876543', 'employee_type': 'Manager', 'team_size': '3', 'office_number': 'B-201'}: Team size must be a non-negative integer
+2025-09-26 14:39:04,688 - INFO - Successfully loaded 1 employees
+2025-09-26 14:39:04,690 - INFO - Loaded employee: TEST001
+2025-09-26 14:39:04,691 - ERROR - Error loading employee from row {'id': 'TEST002', 'fname': 'Test', 'lname': 'Manager', 'department': 'HR', 'ph_number': '5559876543', 'employee_type': 'Manager', 'team_size': '3', 'office_number': 'B-201'}: Team size must be a non-negative integer
+2025-09-26 14:39:04,691 - INFO - Successfully loaded 1 employees
+2025-09-26 14:39:04,691 - INFO - Updated employee: TEST001
+2025-09-26 14:39:04,692 - INFO - Saved employee: TEST001
+2025-09-26 14:39:04,692 - INFO - Successfully saved 1 employees
+2025-09-26 14:39:04,701 - INFO - Loaded employee: TEST001
+2025-09-26 14:39:04,701 - INFO - Successfully loaded 1 employees
+2025-09-26 14:39:04,701 - INFO - Deleted employee: TEST001
+2025-09-26 14:39:11,770 - INFO - SQLite connection established for SQL logging
+2025-09-26 14:39:34,793 - INFO - Created new CSV file: test_employees.csv
+2025-09-26 14:39:34,793 - INFO - Saved employee: EMP001
+2025-09-26 14:39:34,793 - INFO - Saved employee: EMP002
+2025-09-26 14:39:34,807 - INFO - Saved employee: MGR001
+2025-09-26 14:39:34,809 - INFO - Saved employee: EMP003
+2025-09-26 14:39:34,809 - INFO - Saved employee: MGR002
+2025-09-26 14:39:34,809 - INFO - Successfully saved 5 employees
+2025-09-26 14:39:34,821 - INFO - Loaded employee: EMP001
+2025-09-26 14:39:34,822 - INFO - Loaded employee: EMP002
+2025-09-26 14:39:34,824 - ERROR - Error loading employee from row {'id': 'MGR001', 'fname': 'Carol', 'lname': 'Lee', 'department': 'IT', 'ph_number': '5553456789', 'employee_type': 'Manager', 'team_size': '5', 'office_number': 'A-101'}: Team size must be a non-negative integer
+2025-09-26 14:39:34,824 - INFO - Loaded employee: EMP003
+2025-09-26 14:39:34,824 - ERROR - Error loading employee from row {'id': 'MGR002', 'fname': 'Eva', 'lname': 'Brown', 'department': 'HR', 'ph_number': '5555678901', 'employee_type': 'Manager', 'team_size': '3', 'office_number': 'B-202'}: Team size must be a non-negative integer
+2025-09-26 14:39:34,824 - INFO - Successfully loaded 3 employees
+2025-09-26 14:39:34,824 - INFO - Loaded employee: EMP001
+2025-09-26 14:39:34,824 - INFO - Loaded employee: EMP002
+2025-09-26 14:39:34,824 - ERROR - Error loading employee from row {'id': 'MGR001', 'fname': 'Carol', 'lname': 'Lee', 'department': 'IT', 'ph_number': '5553456789', 'employee_type': 'Manager', 'team_size': '5', 'office_number': 'A-101'}: Team size must be a non-negative integer
+2025-09-26 14:39:34,824 - INFO - Loaded employee: EMP003
+2025-09-26 14:39:34,824 - ERROR - Error loading employee from row {'id': 'MGR002', 'fname': 'Eva', 'lname': 'Brown', 'department': 'HR', 'ph_number': '5555678901', 'employee_type': 'Manager', 'team_size': '3', 'office_number': 'B-202'}: Team size must be a non-negative integer
+2025-09-26 14:39:34,824 - INFO - Successfully loaded 3 employees
+2025-09-26 14:39:34,824 - INFO - Loaded employee: EMP001
+2025-09-26 14:39:34,830 - INFO - Loaded employee: EMP002
+2025-09-26 14:39:34,830 - ERROR - Error loading employee from row {'id': 'MGR001', 'fname': 'Carol', 'lname': 'Lee', 'department': 'IT', 'ph_number': '5553456789', 'employee_type': 'Manager', 'team_size': '5', 'office_number': 'A-101'}: Team size must be a non-negative integer
+2025-09-26 14:39:34,830 - INFO - Loaded employee: EMP003
+2025-09-26 14:39:34,830 - ERROR - Error loading employee from row {'id': 'MGR002', 'fname': 'Eva', 'lname': 'Brown', 'department': 'HR', 'ph_number': '5555678901', 'employee_type': 'Manager', 'team_size': '3', 'office_number': 'B-202'}: Team size must be a non-negative integer
+2025-09-26 14:39:34,831 - INFO - Successfully loaded 3 employees
+2025-09-26 14:39:45,700 - INFO - Loaded employee: EMP001
+2025-09-26 14:39:45,706 - INFO - Loaded employee: EMP002
+2025-09-26 14:39:45,711 - ERROR - Error loading employee from row {'id': 'EMP003', 'fname': 'Carol', 'lname': 'Lee', 'department': 'IT', 'ph_number': '5553456789', 'employee_type': 'Manager', 'team_size': '5', 'office_number': 'A-101'}: Team size must be a non-negative integer
+2025-09-26 14:39:45,716 - INFO - Loaded employee: EMP004
+2025-09-26 14:39:45,725 - ERROR - Error loading employee from row {'id': 'EMP005', 'fname': 'Eva', 'lname': 'Brown', 'department': 'HR', 'ph_number': '5555678901', 'employee_type': 'Manager', 'team_size': '3', 'office_number': 'B-202'}: Team size must be a non-negative integer
+2025-09-26 14:39:45,725 - INFO - Loaded employee: EMP006
+2025-09-26 14:39:45,726 - INFO - Loaded employee: EMP007
+2025-09-26 14:39:45,726 - ERROR - Error loading employee from row {'id': 'EMP008', 'fname': 'Henry', 'lname': 'Anderson', 'department': 'FIN', 'ph_number': '5558901234', 'employee_type': 'Manager', 'team_size': '2', 'office_number': 'C-303'}: Team size must be a non-negative integer
+2025-09-26 14:39:45,726 - INFO - Successfully loaded 5 employees
+2025-09-26 14:39:45,727 - INFO - Saved employee: EMP001
+2025-09-26 14:39:45,728 - INFO - Saved employee: EMP002
+2025-09-26 14:39:45,728 - INFO - Saved employee: EMP004
+2025-09-26 14:39:45,728 - INFO - Saved employee: EMP006
+2025-09-26 14:39:45,728 - INFO - Saved employee: EMP007
+2025-09-26 14:39:45,728 - INFO - Saved employee: 2
+2025-09-26 14:39:45,729 - INFO - Successfully saved 6 employees
+2025-09-26 14:39:45,730 - INFO - SQL Operation: INSERT - INSERT INTO employees (id, name, department, salary, hire_date) VALUES ('2', 'Sophia Fischer', 'IT', 0, '2025-09-26')
+2025-09-26 14:40:19,394 - INFO - SQLite connection established for SQL logging
